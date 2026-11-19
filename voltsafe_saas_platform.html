@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoltSafe - Monitoreo Eléctrico Predictivo IoT (SaaS)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Chart.js for Real-Time Telemetry Simulation -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        brand: {
+                            orange: '#FF7A1A',
+                            darkOrange: '#E05F07',
+                            navy: '#102A43',
+                            dark: '#1A1A1A',
+                            lightBg: '#F4F6F8'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F6F8;
+        }
+        .bg-grid-pattern {
+            background-image: radial-gradient(#FF7A1A 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="text-[#1A1A1A] antialiased">
+
+    <!-- NAVBAR -->
+    <nav class="bg-[#1A1A1A] text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex items-center gap-3">
+                    <svg class="w-10 h-10 text-brand-orange" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 2L6 8V18C6 26.6 12 34.6 20 38C28 34.6 34 26.6 34 18V8L20 2Z" fill="none" stroke="currentColor" stroke-width="3"/>
+                        <path d="M22 10L14 20H21L18 30L26 20H19L22 10Z" fill="currentColor"/>
+                    </svg>
+                    <span class="text-2xl font-extrabold tracking-tight">Volt<span class="text-brand-orange">Safe</span> <span class="text-xs font-mono bg-brand-orange/20 text-brand-orange px-2 py-0.5 rounded ml-1">SaaS</span></span>
+                </a>
+                <div class="hidden md:flex items-center gap-8 font-semibold text-sm">
+                    <a href="#problema" class="hover:text-brand-orange transition">El Problema</a>
+                    <a href="#solucion" class="hover:text-brand-orange transition">Características</a>
+                    <a href="#innovacion" class="hover:text-brand-orange transition">Innovación</a>
+                    <a href="#fijacion-valor" class="hover:text-brand-orange transition">Modelo SaaS</a>
+                    <a href="#precios" class="hover:text-brand-orange transition">Planes</a>
+                    <a href="#contacto" class="bg-brand-orange hover:bg-brand-darkOrange text-white px-5 py-2.5 rounded-lg font-bold transition text-center shadow-md">Demo 14 Días</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION WITH LIVE DASHBOARD -->
+    <header class="relative bg-brand-navy text-white py-16 lg:py-24 overflow-hidden border-b-8 border-brand-orange">
+        <div class="absolute inset-0 opacity-10 bg-grid-pattern pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-6 space-y-6">
+                <span class="bg-brand-orange text-white text-xs uppercase font-extrabold tracking-widest px-3 py-1.5 rounded-full inline-block">Plataforma Web SaaS Predictiva</span>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                    Evita paros no planificados en tu planta industrial
+                </h1>
+                <p class="text-lg text-slate-300 max-w-lg">
+                    VoltSafe protege tu infraestructura mediante software e inteligencia predictiva en la nube. Conecta tus sensores existentes y transiciona al mantenimiento predictivo sin comprar hardware costoso.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contacto" class="bg-brand-orange hover:bg-brand-darkOrange text-white text-center font-bold px-8 py-4 rounded-xl shadow-lg transition text-lg">
+                        Prueba Gratuita de 14 Días
+                    </a>
+                    <a href="#fijacion-valor" class="bg-transparent hover:bg-white/10 border-2 border-slate-400 hover:border-white text-white text-center font-bold px-8 py-4 rounded-xl transition text-lg">
+                        Modelo de Negocio SaaS
+                    </a>
+                </div>
+                <p class="text-xs text-slate-400 flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-brand-orange"></i>
+                    Bloqueo automático tras 14 días • Conexión universal vía API
+                </p>
+            </div>
+
+            <!-- Previsualización Dashboard Interactivo -->
+            <div class="lg:col-span-6">
+                <div class="bg-[#1A1A1A] border-4 border-slate-700 rounded-2xl p-4 sm:p-5 shadow-2xl relative">
+                    <div class="flex justify-between items-center mb-4 pb-3 border-b border-gray-800">
+                        <div class="flex gap-1.5">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-[11px] text-gray-400 font-mono ml-2">saas.voltsafe.com/plant-01</span>
+                        </div>
+                        <span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-2 py-0.5 rounded font-extrabold flex items-center gap-1 font-mono">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> API ACTIVA
+                        </span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm font-bold text-gray-200">Motor #04 - Extrusora Principal</span>
+                            <button id="trigger-spike" class="text-[10px] bg-brand-orange/20 text-brand-orange border border-brand-orange/40 hover:bg-brand-orange hover:text-white px-2 py-1 rounded transition font-mono">
+                                Simular Inestabilidad
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-2 text-center font-mono">
+                            <div class="bg-gray-900 p-2.5 rounded-lg border border-gray-800">
+                                <span class="text-[10px] text-gray-400 block">Voltaje</span>
+                                <span id="dash-volt" class="text-base font-bold text-emerald-400">440.5 V</span>
+                            </div>
+                            <div class="bg-gray-900 p-2.5 rounded-lg border border-gray-800">
+                                <span class="text-[10px] text-gray-400 block">Corriente</span>
+                                <span id="dash-curr" class="text-base font-bold text-emerald-400">32.4 A</span>
+                            </div>
+                            <div class="bg-gray-900 p-2.5 rounded-lg border border-gray-800">
+                                <span class="text-[10px] text-gray-400 block">Estado Cloud</span>
+                                <span id="dash-status" class="text-xs font-bold text-yellow-400">Normal</span>
+                            </div>
+                        </div>
+
+                        <!-- Gráfica Chart.js -->
+                        <div class="bg-[#102A43] p-3 rounded-xl border border-blue-900">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-[10px] text-slate-300 font-semibold font-mono">Firma Eléctrica ESA (API Telemetría)</span>
+                                <span id="dash-alert" class="hidden text-[9px] bg-red-600 text-white font-bold px-1.5 py-0.5 rounded animate-pulse">ALERTA REGISTRADA</span>
+                            </div>
+                            <div class="h-36 w-full">
+                                <canvas id="heroChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- EL PROBLEMA QUE RESOLVEMOS -->
+    <section id="problema" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4">
+                <span class="text-sm font-bold text-brand-orange uppercase tracking-wider">El Dolor de la Industria</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">¿Cuánto te cuesta una falla eléctrica imprevista?</h2>
+                <p class="text-gray-600">Un solo motor quemado o una línea de producción paralizada representa más de <strong>$50,000 MXN</strong> en pérdidas inmediatas.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-16">
+                <div class="bg-[#F4F6F8] p-8 rounded-2xl border-l-4 border-red-500 space-y-4">
+                   
+                    <h3 class="text-xl font-bold">Paros No Planificados</h3>
+                    <p class="text-gray-600 text-sm">Pérdidas masivas por hora de inactividad, penalizaciones de entrega y pago de horas extra no contempladas.</p>
+                </div>
+                <div class="bg-[#F4F6F8] p-8 rounded-2xl border-l-4 border-brand-orange space-y-4">
+                    
+                    <h3 class="text-xl font-bold">Desgaste y Picos de Voltaje</h3>
+                    <p class="text-gray-600 text-sm">Los motores sufren daño térmico y mecánico acumulativo e invisible por variaciones de tensión hasta su ruptura.</p>
+                </div>
+                <div class="bg-[#F4F6F8] p-8 rounded-2xl border-l-4 border-brand-navy space-y-4">
+                    
+                    <h3 class="text-xl font-bold">Riesgos de Seguridad</h3>
+                    <p class="text-gray-600 text-sm">El sobrecalentamiento no detectado genera peligros directos de cortocircuito e incendios para el personal operativo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CARACTERÍSTICAS DEL PRODUCTO -->
+    <section id="solucion" class="py-20 bg-[#F4F6F8]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-sm font-bold text-brand-orange uppercase tracking-wider">¿Qué es VoltSafe?</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1A1A1A]">La solución inteligente e integral</h2>
+                <p class="text-gray-600">Integración perfecta entre los sensores físicos de tu fábrica y nuestro software en la nube.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- TANGIBLES (HARDWARE / SENSORES CLIENTE) -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 space-y-6">
+                    <div class="flex items-center gap-4 pb-4 border-b">
+                        <div class="bg-brand-navy text-white p-3 rounded-xl font-bold"><i class="fa-solid fa-microchip"></i></div>
+                        <div>
+                            <span class="text-xs font-bold text-gray-400 uppercase">Integración Física</span>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Características Tangibles (Sensores)</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 text-sm text-gray-700">
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Nodos de telemetría universales (Retrofit):</strong> Compatibilidad con motores antiguos sin modificar tableros.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Sensores no invasivos:</strong> Transformadores de corriente de núcleo partido acoplables sin detener producción.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Carcasas de aislamiento industrial:</strong> Envolventes resistentes a polvo, vibración y humedad.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Protección eléctrica integrada:</strong> Supresión de picos para resguardar la electrónica local.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- INTANGIBLES (SOFTWARE SAAS) -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-200 space-y-6">
+                    <div class="flex items-center gap-4 pb-4 border-b">
+                        <div class="bg-brand-orange text-white p-3 rounded-xl font-bold"><i class="fa-solid fa-cloud"></i></div>
+                        <div>
+                            <span class="text-xs font-bold text-brand-orange uppercase">Servicio Digital</span>
+                            <h3 class="text-2xl font-extrabold text-brand-navy">Características Intangibles (Software)</h3>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-gray-700">
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Plataforma Web SaaS (Mobile-First):</strong> Interfaz accesible desde cualquier dispositivo móvil o de escritorio.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Algoritmo de análisis y predicción:</strong> Interpretación continua de la firma eléctrica para prever desgaste de rodamientos.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Sistema de alertas tempranas:</strong> Notificaciones automáticas e inmediatas cuando los valores salen de rango.</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <span class="text-brand-orange font-bold">✔</span>
+                            <p><strong>Modelo de escalabilidad modular:</strong> Adición progresiva de activos en la nube sin instalaciones pesadas.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ASPECTOS INNOVADORES -->
+    <section id="innovacion" class="py-20 bg-brand-navy text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-sm font-bold text-brand-orange uppercase tracking-widest">Nuestra Ventaja</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Aspectos Innovadores de VoltSafe</h2>
+                <p class="text-slate-300">Rompemos las barreras tradicionales de costo mediante innovación digital pura.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-[#1A1A1A] p-6 rounded-2xl border-t-4 border-brand-orange space-y-3">
+                    <span class="text-2xl text-brand-orange"><i class="fa-solid fa-chart-line"></i></span>
+                    <h3 class="text-lg font-bold">Predicción Eléctrica Avanzada</h3>
+                    <p class="text-slate-400 text-sm">Deducimos fallas mecánicas (rodamientos, fricción) analizando microfluctuaciones de voltaje sin costosos acelerómetros.</p>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-2xl border-t-4 border-brand-orange space-y-3">
+                    <span class="text-2xl text-brand-orange"><i class="fa-solid fa-plug"></i></span>
+                    <h3 class="text-lg font-bold">Tecnología Retrofit</h3>
+                    <p class="text-slate-400 text-sm">Sin detener la producción ni alterar tableros internos. Conectamos sensores universales a la nube en minutos.</p>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-2xl border-t-4 border-brand-orange space-y-3">
+                    <span class="text-2xl text-brand-orange"><i class="fa-solid fa-robot"></i></span>
+                    <h3 class="text-lg font-bold">Automatización Continuada</h3>
+                    <p class="text-slate-400 text-sm">Elimina lecturas manuales con multímetro. El procesamiento corre 24/7 de forma autónoma en la nube.</p>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-2xl border-t-4 border-brand-orange space-y-3">
+                    <span class="text-2xl text-brand-orange"><i class="fa-solid fa-heart-pulse"></i></span>
+                    <h3 class="text-lg font-bold">Prioridad en Seguridad Humana</h3>
+                    <p class="text-slate-400 text-sm">Salvar vidas y prevenir accidentes por incidentes térmicos o cortocircuitos es nuestra máxima prioridad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPLICACIÓN DETALLADA 2.5.1: FIJACIÓN DEL PRECIO SaaS BASADA EN VALOR -->
+    <section id="fijacion-valor" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="text-xs font-extrabold text-brand-orange uppercase tracking-widest bg-orange-100 px-3 py-1 rounded-full">Sección 2.5.1</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Fijación del Precio SaaS y Estrategia Financiera</h2>
+                <p class="text-gray-600">Al enfocarse estrictamente como un producto digital (SaaS) donde no se vende hardware, el modelo se basa en recuperar el desarrollo y la infraestructura cloud, entregando un valor masivo.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Tarjeta 1: Desarrollo -->
+                <div class="bg-[#F4F6F8] p-8 rounded-2xl border border-gray-200 space-y-4">
+                    <div class="w-10 h-10 rounded-lg bg-blue-100 text-brand-navy flex items-center justify-center font-bold text-xl"><i class="fa-solid fa-lightbulb"></i></div>
+                    <h3 class="text-xl font-bold">1. Costos Fijos de Desarrollo</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Los gastos de elaboración como los <strong>$800 MXN de luz</strong> consumidos durante la programación y servidores de prueba se clasificaron como Costos Fijos. No se cobran al primer cliente, sino que se amortizan progresivamente entre todos los usuarios del primer año.
+                    </p>
+                </div>
+
+                <!-- Tarjeta 2: Costos Operativos Cloud -->
+                <div class="bg-[#F4F6F8] p-8 rounded-2xl border border-gray-200 space-y-4">
+                    <div class="w-10 h-10 rounded-lg bg-orange-100 text-brand-orange flex items-center justify-center font-bold text-xl"><i class="fa-solid fa-server"></i></div>
+                    <h3 class="text-xl font-bold">2. Costo Operativo Cloud (~$500 MXN)</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        El costo mensual para mantener activo a cada cliente en la nube es bajo y eficiente:
+                    </p>
+                    <ul class="text-xs text-gray-600 space-y-1 font-mono">
+                        <li>• Hospedaje app y BD: ~$300.00 MXN/mes</li>
+                        <li>• Algoritmos e APIs: ~$200.00 MXN/mes</li>
+                        <li class="font-bold text-gray-800 pt-1">• Total Base: ~$500.00 MXN/mes por cliente</li>
+                    </ul>
+                </div>
+
+                <!-- Tarjeta 3: Fijación Basada en Valor -->
+                <div class="bg-[#F4F6F8] p-8 rounded-2xl border-2 border-brand-orange space-y-4">
+                    <div class="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                    <h3 class="text-xl font-bold">3. Fijación Basada en Valor</h3>
+                    <p class="text-sm text-gray-600 leading-relaxed">
+                        Evitar que una fábrica pierda <strong>$50,000 MXN+</strong> por un motor quemado genera un valor percibido altísimo. La licencia promedio de <strong>$2,500 MXN/mes por planta</strong> garantiza un <strong>margen de utilidad > 80%</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PLANES Y POLÍTICAS DE PRECIO (2.5.2) -->
+    <section id="precios" class="py-20 bg-[#F4F6F8] border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-12">
+                <span class="text-xs font-extrabold text-brand-orange uppercase tracking-widest bg-orange-100 px-3 py-1 rounded-full">Sección 2.5.2</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Planes y Políticas Comerciales</h2>
+                <p class="text-gray-600">Modelos de suscripción SaaS adaptados a la cantidad de activos monitoreados en planta.</p>
+                
+                <!-- Switch Facturación -->
+                <div class="inline-flex items-center gap-3 bg-white p-2 rounded-2xl shadow-sm border border-gray-200 mt-4">
+                    <button id="toggle-monthly" class="px-5 py-2.5 rounded-xl text-sm font-bold bg-brand-navy text-white transition">Facturación Mensual</button>
+                    <button id="toggle-yearly" class="px-5 py-2.5 rounded-xl text-sm font-bold text-gray-600 hover:text-gray-900 transition flex items-center gap-2">
+                        <span>Contrato Anual</span>
+                        <span class="text-[10px] bg-emerald-500 text-white font-extrabold px-2 py-0.5 rounded-full uppercase">20% DESCUENTO</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grilla de Planes -->
+            <div class="grid md:grid-cols-3 gap-8 items-stretch">
+                <!-- Plan Básico -->
+                <div class="bg-white p-8 rounded-3xl border border-gray-200 flex flex-col justify-between shadow-sm">
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Pequeñas Plantas</span>
+                        <h3 class="text-2xl font-bold">Plan Básico</h3>
+                        <p class="text-gray-500 text-xs">Hasta 5 motores monitoreados.</p>
+                        <div class="text-4xl font-extrabold text-brand-dark tracking-tight">
+                            <span id="price-basic">$1,500</span>
+                            <span class="text-xs font-semibold text-gray-500">MXN / mes</span>
+                        </div>
+                        <p id="savings-basic" class="text-xs text-emerald-600 font-bold hidden">¡Ahorras $3,600 MXN al año!</p>
+                        <ul class="space-y-3 text-xs pt-4 border-t border-gray-100 text-gray-600">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Monitoreo de 1 a 5 motores</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Alertas básicas en plataforma web</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Histórico de telemetría de 14 días</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Soporte técnico estándar</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="mt-8 block bg-brand-navy hover:bg-brand-dark text-white text-center font-bold py-3.5 rounded-xl transition">Elegir Plan Básico</a>
+                </div>
+
+                <!-- Plan Profesional -->
+                <div class="bg-brand-navy text-white p-8 rounded-3xl border-4 border-brand-orange flex flex-col justify-between relative shadow-xl transform lg:-translate-y-2">
+                    <span class="absolute top-0 right-8 -translate-y-1/2 bg-brand-orange text-white text-xs font-extrabold uppercase py-1 px-3.5 rounded-full">Recomendado</span>
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Medianas Plantas</span>
+                        <h3 class="text-2xl font-bold">Plan Profesional</h3>
+                        <p class="text-slate-300 text-xs">Hasta 20 motores monitoreados.</p>
+                        <div class="text-4xl font-extrabold text-white tracking-tight">
+                            <span id="price-pro">$4,000</span>
+                            <span class="text-xs font-semibold text-slate-300">MXN / mes</span>
+                        </div>
+                        <p id="savings-pro" class="text-xs text-emerald-400 font-bold hidden">¡Ahorras $9,600 MXN al año!</p>
+                        <ul class="space-y-3 text-xs pt-4 border-t border-slate-700 text-slate-200">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Monitoreo de hasta 20 motores</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Alertas prioritarias inmediatas</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Algoritmo predictivo (firma eléctrica)</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Panel e histórico de 90 días</li>
+                            <li class="flex items-center gap-2 text-brand-orange font-bold"><i class="fa-solid fa-star"></i> Soporte técnico prioritario</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="mt-8 block bg-brand-orange hover:bg-brand-darkOrange text-white text-center font-bold py-3.5 rounded-xl transition shadow-lg">Elegir Plan Profesional</a>
+                </div>
+
+                <!-- Plan Enterprise -->
+                <div class="bg-white p-8 rounded-3xl border border-gray-200 flex flex-col justify-between shadow-sm">
+                    <div class="space-y-4">
+                        <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Alta Densidad / Múltiples Plantas</span>
+                        <h3 class="text-2xl font-bold">Plan Enterprise</h3>
+                        <p class="text-gray-500 text-xs">Motores ilimitados o múltiples sedes.</p>
+                        <div class="text-3xl font-extrabold text-brand-dark tracking-tight">
+                            <span id="price-enterprise">Desde $10,000</span>
+                            <span class="text-xs font-semibold text-gray-500 block">MXN / mes</span>
+                        </div>
+                        <p id="savings-enterprise" class="text-xs text-emerald-600 font-bold hidden"> Cotización con 20% Desc. Anual</p>
+                        <ul class="space-y-3 text-xs pt-4 border-t border-gray-100 text-gray-600">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Motores ilimitados o varias plantas</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Integración personalizada de APIs</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Auditoría técnica mensual en campo</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-orange"></i> Soporte VIP 24/7 dedicado</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="mt-8 block bg-brand-navy hover:bg-brand-dark text-white text-center font-bold py-3.5 rounded-xl transition">Solicitar Cotización</a>
+                </div>
+            </div>
+
+            <!-- POLÍTICAS COMERCIALES ADICIONALES -->
+            <div class="mt-12 grid md:grid-cols-3 gap-6 text-xs text-gray-600">
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-2">
+                    <div class="text-brand-orange font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-wrench"></i> Cuota de Integración / Setup
+                    </div>
+                    <p><strong>$3,000.00 MXN (Única vez):</strong> Dado que el cliente provee sus sensores, cubre la vinculación física con las APIs de la app web y configuración del dashboard.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-2">
+                    <div class="text-emerald-600 font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-percent"></i> Descuento Pago Anual
+                    </div>
+                    <p><strong>20% de Descuento:</strong> Al contratar 12 meses por adelantado mediante contrato anual (equivale a casi 2.5 meses de servicio totalmente gratis).</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl border border-gray-200 space-y-2">
+                    <div class="text-blue-600 font-bold text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-clock font-bold"></i> Prueba Gratuita (14 Días)
+                    </div>
+                    <p><strong>Free Trial Automático:</strong> 14 días de prueba completa. Al finalizar el día 14, el dashboard se bloquea automáticamente hasta ingresar método de pago.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FORMULARIO DE DEMO / FREE TRIAL -->
+    <section id="contacto" class="py-20 bg-brand-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <span class="text-xs font-extrabold text-brand-orange uppercase tracking-widest bg-brand-orange/20 px-3 py-1 rounded-full border border-brand-orange/30">Free Trial 14 Días</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Comienza tu Prueba Gratuita Hoy</h2>
+                <p class="text-slate-400 text-sm leading-relaxed">
+                    Comprueba la eficacia de nuestro algoritmo predictivo por 14 días sin costo inicial. Conecta tus sensores a la plataforma web VoltSafe y detecta anomalías antes de que causen paros.
+                </p>
+                <div class="space-y-3 text-xs text-slate-300">
+                    <p class="flex items-center gap-3">
+                        <span class="w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center font-bold">✓</span>
+                        Acceso total a la plataforma web SaaS por 14 días.
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span class="w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center font-bold">✓</span>
+                        Asistencia en la vinculación de APIs y sensores.
+                    </p>
+                    <p class="flex items-center gap-3">
+                        <span class="w-5 h-5 rounded-full bg-brand-orange/20 text-brand-orange flex items-center justify-center font-bold">✓</span>
+                        Bloqueo automático sin cargos sorpresas al finalizar el día 14.
+                    </p>
+                </div>
+            </div>
+
+            <div class="bg-white text-[#1A1A1A] p-8 rounded-3xl shadow-2xl space-y-4">
+                <h3 class="text-2xl font-bold">Activa tu cuenta de prueba</h3>
+                <form id="free-trial-form" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Nombre Completo *</label>
+                        <input type="text" required placeholder="Ej. Cesar Delgado Acevedo" class="w-full bg-[#F4F6F8] border border-gray-300 focus:border-brand-orange focus:outline-none rounded-xl p-3 text-sm">
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Empresa / Planta *</label>
+                            <input type="text" required placeholder="Tu Planta Industrial" class="w-full bg-[#F4F6F8] border border-gray-300 focus:border-brand-orange focus:outline-none rounded-xl p-3 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Correo Corporativo *</label>
+                            <input type="email" required placeholder="nombre@empresa.com" class="w-full bg-[#F4F6F8] border border-gray-300 focus:border-brand-orange focus:outline-none rounded-xl p-3 text-sm">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase text-gray-500 mb-1">Número de Motores a Monitorear</label>
+                        <select class="w-full bg-[#F4F6F8] border border-gray-300 focus:border-brand-orange focus:outline-none rounded-xl p-3 text-sm">
+                            <option>Hasta 5 motores (Plan Básico)</option>
+                            <option>Hasta 20 motores (Plan Profesional)</option>
+                            <option>Más de 20 motores (Plan Enterprise)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-orange hover:bg-brand-darkOrange text-white font-extrabold uppercase p-4 rounded-xl shadow-lg transition text-sm">
+                        Iniciar Prueba Gratuita de 14 Días
+                    </button>
+                </form>
+                <div id="trial-message" class="hidden bg-emerald-100 text-emerald-800 p-3 rounded-xl text-xs font-semibold text-center">
+                    ¡Cuenta creada exitosamente! Revisa tu correo corporativo para acceder a tu dashboard de 14 días.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CON CRÉDITOS -->
+    <footer class="bg-brand-navy text-white py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex items-center gap-3">
+                <svg class="w-8 h-8 text-brand-orange" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 2L6 8V18C6 26.6 12 34.6 20 38C28 34.6 34 26.6 34 18V8L20 2Z" fill="none" stroke="currentColor" stroke-width="3"/>
+                    <path d="M22 10L14 20H21L18 30L26 20H19L22 10Z" fill="currentColor"/>
+                </svg>
+                <span class="text-xl font-extrabold">Volt<span class="text-brand-orange">Safe</span></span>
+            </div>
+            
+            <p class="text-xs text-slate-400 text-center md:text-left leading-relaxed">
+                © 2026 VoltSafe. Todos los derechos reservados. <br>
+                Desarrollado por: <strong>Cesar Delgado • Vanessa Torres • Angel Eduardo • Emiliano Nolasco • Joseph Manuel • Joaquin Oswaldo</strong>. <br>
+                <span class="font-semibold text-slate-300">Instituto Tecnológico de Celaya</span> • Proyecto SaaS de Innovación y Mantenimiento Predictivo
+            </p>
+            
+            <div class="flex gap-4 text-xs font-semibold text-slate-400">
+                <a href="#problema" class="hover:text-white transition">Privacidad</a>
+                <a href="#precios" class="hover:text-white transition">Términos SaaS</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Hero Telemetry Simulation Chart
+            const ctx = document.getElementById('heroChart').getContext('2d');
+            const heroChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 15}, (_, i) => `${i}s`),
+                    datasets: [{
+                        label: 'Amperaje (A)',
+                        data: [32, 32.2, 32.1, 32.4, 32.3, 32.5, 32.2, 32.4, 32.1, 32.3, 32.2, 32.4, 32.3, 32.2, 32.4],
+                        borderColor: '#FF7A1A',
+                        borderWidth: 2,
+                        backgroundColor: 'rgba(255, 122, 26, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#94A3B8', font: { size: 9 } }
+                        }
+                    }
+                }
+            });
+
+            // Trigger Spike Simulation
+            let isSpike = false;
+            document.getElementById('trigger-spike').addEventListener('click', () => {
+                isSpike = true;
+                document.getElementById('dash-curr').innerText = '58.7 A';
+                document.getElementById('dash-curr').className = 'text-base font-bold text-red-500 animate-pulse';
+                document.getElementById('dash-status').innerText = 'Pico Anómalo';
+                document.getElementById('dash-status').className = 'text-xs font-bold text-red-500';
+                document.getElementById('dash-alert').classList.remove('hidden');
+
+                const data = heroChart.data.datasets[0].data;
+                data[data.length - 1] = 58.7;
+                heroChart.update();
+
+                setTimeout(() => {
+                    isSpike = false;
+                    document.getElementById('dash-curr').innerText = '32.4 A';
+                    document.getElementById('dash-curr').className = 'text-base font-bold text-emerald-400';
+                    document.getElementById('dash-status').innerText = 'Normal';
+                    document.getElementById('dash-status').className = 'text-xs font-bold text-yellow-400';
+                    document.getElementById('dash-alert').classList.add('hidden');
+                }, 3000);
+            });
+
+            // Live Updates
+            setInterval(() => {
+                if(!isSpike) {
+                    const noise = (Math.random() - 0.5) * 0.4;
+                    const val = (32.4 + noise).toFixed(1);
+                    document.getElementById('dash-curr').innerText = `${val} A`;
+                    const data = heroChart.data.datasets[0].data;
+                    data.shift();
+                    data.push(parseFloat(val));
+                    heroChart.update();
+                }
+            }, 1000);
+
+            // Annual vs Monthly Toggle Logic
+            const btnMonthly = document.getElementById('toggle-monthly');
+            const btnYearly = document.getElementById('toggle-yearly');
+            
+            const priceBasic = document.getElementById('price-basic');
+            const pricePro = document.getElementById('price-pro');
+            const priceEnterprise = document.getElementById('price-enterprise');
+
+            const savingsBasic = document.getElementById('savings-basic');
+            const savingsPro = document.getElementById('savings-pro');
+            const savingsEnterprise = document.getElementById('savings-enterprise');
+
+            btnMonthly.addEventListener('click', () => {
+                btnMonthly.className = "px-5 py-2.5 rounded-xl text-sm font-bold bg-brand-navy text-white transition";
+                btnYearly.className = "px-5 py-2.5 rounded-xl text-sm font-bold text-gray-600 hover:text-gray-900 transition flex items-center gap-2";
+                
+                priceBasic.innerText = "$1,500";
+                pricePro.innerText = "$4,000";
+                priceEnterprise.innerText = "Desde $10,000";
+
+                savingsBasic.classList.add('hidden');
+                savingsPro.classList.add('hidden');
+                savingsEnterprise.classList.add('hidden');
+            });
+
+            btnYearly.addEventListener('click', () => {
+                btnYearly.className = "px-5 py-2.5 rounded-xl text-sm font-bold bg-brand-navy text-white transition flex items-center gap-2";
+                btnMonthly.className = "px-5 py-2.5 rounded-xl text-sm font-bold text-gray-600 hover:text-gray-900 transition";
+                
+                // 20% discount applies
+                priceBasic.innerText = "$1,200";
+                pricePro.innerText = "$3,200";
+                priceEnterprise.innerText = "Desde $8,000";
+
+                savingsBasic.classList.remove('hidden');
+                savingsPro.classList.remove('hidden');
+                savingsEnterprise.classList.remove('hidden');
+            });
+
+            // Form Submit Simulation
+            document.getElementById('free-trial-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                document.getElementById('trial-message').classList.remove('hidden');
+            });
+        });
+    </script>
+</body>
+</html>
